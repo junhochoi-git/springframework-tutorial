@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 파일의 폴더 구조나 이름은 무방하나, 패키지와 클래스 이름과 동일하게 해주어야 혼란스러운 상황 피함 -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.zerock.mapper.BoardMapper">
+	<select id="getList" resultType="org.zerock.domain.BoardVO">
+	<![CDATA[
+		select * from tbl_board where bno > 0
+	
+	]]>
+	</select>
+	<!-- 13.1 MyBatis에서 SQL 페이징 처리를 위해 SQL구문을 여기다 적어놓자 -->
+	<select id="getListWithPaging" resultType="org.zerock.domain.BoardVO">
+	<![CDATA[
+		select 
+			bno, title, content, writer, regdate, updateDate
+		from 
+			(
+			  select /*+INDEX_DESC(tbl_board pk_board) */
+			   rownum rn, bno, title, content, writer, regdate, updateDate
+			  from 
+			   tbl_board
+			  where rowNum<=#{pageNum}*#{amount}
+			)
+		where rn > (#{pageNum}-1)*#{amount}
+	]]>
+	</select>
+	
+	
+	<!--8.2.1 추가 -->
+	<insert id="insert">
+		insert into tbl_board(bno,title,content,writer)
+		values(seq_board.nextval, #{title}, #{content}, #{writer})
+	</insert>
+	
+	<insert id="insertSelectKey">
+		<selectKey keyProperty="bno" order="BEFORE" resultType="long">
+			select seq_board.nextval from dual
+		</selectKey>
+		insert into tbl_board(bno,title,content,writer)
+		values(#{bno}, #{title}, #{content}, #{writer})
+	</insert>
+	
+	<!-- 8.2.2 추가 -->
+	<select id="read" resultType="org.zerock.domain.BoardVO">
+		select * from tbl_board where bno = #{bno}
+	</select>
+	
+	<!-- 8.2.3 삭제 -->
+	<delete id="delete">
+		delete tbl_board where bno=#{bno}
+	</delete>
+	
+	<!-- 8.2.4 업데이트 -->
+	<update id = "update">
+		update tbl_board
+		set title=#{title},
+			content=#{content},
+			writer=#{writer},
+			updateDate=sysdate
+		where bno=#{bno}
+	
+	</update>
+	
+	<!-- 14.6 실제 모든 게시물의 수 구하기 -->
+	<select id="getTotalCount" resultType="int">
+		select count(*) from tbl_board where bno>0
+	</select>
+	
+	<!-- 15. 검색처리  -->
+	
+	
+	
+</mapper>

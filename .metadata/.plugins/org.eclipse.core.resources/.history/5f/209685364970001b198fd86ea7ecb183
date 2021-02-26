@@ -1,0 +1,36 @@
+package org.zerock.mapper;
+
+import java.util.List;
+import java.util.Map;
+
+import org.zerock.domain.BoardVO;
+import org.zerock.domain.Criteria;
+
+public interface BoardMapper {
+	/* @Select("select * from tbl_board where bno > 0") */ // Primary Key PK 를 bno 라는 칼럼 조건을 이용함 where 문
+	public List<BoardVO> getList(); // 이미 작성된 BoardVO 클래스를 적극적으로 활용해서 객체 타입 자료형으로 취급함
+	
+	/* ch 13 Handling Paging in mybatis */
+	public List<BoardVO> getListWithPaging(Criteria cri);
+	
+	/*8.2.1 create ( insert ) 처리 */
+	public void insert(BoardVO board);
+	
+	public void insertSelectKey(BoardVO board);
+	
+	/*8.2.2 read(select) 처리*/
+	public BoardVO read(Long bno); // b number
+	
+	/*8.2.3 delete 처리 */
+	public int delete (Long bno);
+	
+	/*8.2.4 update 처리*/
+	public int update(BoardVO board);
+	
+	/*14.6 실제 모든 게시물의 수를 구하기*/
+	public int getTotalCount(Criteria cri);
+	
+	/*15.검색 처리 관련*/
+	List<BoardVO> searchTest(Map<String, Map<String,String>> map); // map 안에 map // boardMapper.xml에서 구현
+	
+}
