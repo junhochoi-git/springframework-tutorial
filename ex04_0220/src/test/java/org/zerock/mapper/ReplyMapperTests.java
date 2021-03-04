@@ -1,5 +1,6 @@
 package org.zerock.mapper;
 
+import java.util.List;
 import java.util.stream.IntStream;
 
 import org.junit.Test;
@@ -7,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.zerock.domain.Criteria;
 import org.zerock.domain.ReplyVO;
 
 import lombok.Setter;
@@ -67,4 +69,16 @@ public class ReplyMapperTests {
 		
 		log.info("UPDATE COUNT: "+ count );
 	}
+	
+	@Test 
+	public void testList() {
+		Criteria  cri = new Criteria();
+		//ex. bnoArr[0] 
+		List<ReplyVO> replies = mapper.getListWithPaging(cri, bnoArr[0]);
+		
+		replies.forEach(reply->log.info(reply)); // 해당 bno의 reply들을 전부 가져옴
+	}
+	
+	
+	
 }

@@ -1,5 +1,9 @@
 package org.zerock.mapper;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+import org.zerock.domain.Criteria;
 import org.zerock.domain.ReplyVO;
 
 public interface ReplyMapper {
@@ -14,4 +18,8 @@ public interface ReplyMapper {
 	
 	/*p386 Update*/
 	public int update(ReplyVO reply);
+	
+	/*p387 use @Param to pass more than two datas as parameters */
+	public List<ReplyVO> getListWithPaging(@Param("cri") Criteria cri , @Param("bno") Long bno);
+	
 }
