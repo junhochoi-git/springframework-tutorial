@@ -62,8 +62,22 @@
 					<a href="/board/list">List</a>
 				</button>
 				
+				
+				<!-- 0305_ modulize reply.js -->
+				<script src="/resources/js/reply.js"></script>
+				<script>
+				/* 0305 자바 스크립트 모듈화 확인*/
+				$(document).ready(function(){
+					console.log(replyService);
+					});
+				
+				</script>
+				
 				<!-- 자바 스크립트  -->
 				<script>
+					
+					
+									
 					var actionForm=$("#actionForm");
 					
 					$(".listBtn").click(function(e){
